@@ -1,3 +1,13 @@
+// Function to get a random color
+function getRandomColor() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+
 function makeGrids(size) {
     let screen = document.querySelector(".sketch-screen");
     screen.innerHTML = "";
@@ -10,8 +20,21 @@ function makeGrids(size) {
             let row = document.createElement("div");
             row.classList.add("row");
 
-            row.addEventListener("mouseover", function(){
-                row.style.backgroundColor = "black";
+            // Initializing opacity to 0 so the logic works from the first hover 
+            row.style.opacity = "0";
+
+            row.addEventListener("mouseover", function() {
+                let randomColor = getRandomColor();
+                row.style.backgroundColor = randomColor;
+
+                // Turn the number from string to math number;
+                let currentOpacity = Number(row.style.opacity);
+
+                // We only increase if it is not yet fully black / opaque
+                if (currentOpacity < 1){
+                    row.style.opacity = currentOpacity + 0.1;
+                }
+
             });
 
             column.appendChild(row);
